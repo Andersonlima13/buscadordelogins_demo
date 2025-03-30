@@ -1,0 +1,5 @@
+.container, .row, .col-sm-3, .col-sm-9 {
+    word-wrap: normal; /* Evita quebras de linha automáticas em palavras */
+    overflow-wrap: break-word; /* Evita quebrar palavras longas de maneira inesperada */
+  }
+  

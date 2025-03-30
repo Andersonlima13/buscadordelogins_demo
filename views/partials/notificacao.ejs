@@ -1,0 +1,41 @@
+<% if (mensagemT) { %>
+    <div style="position: fixed; top: 1vw; right: 1vh;; ; width: 25rem; z-index: 1034;" class="auto-close alertHidden">
+      <div class="alert alert-success alert-dismissible auto-close alertHidden">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: #fff;">&times;</button>
+        <h6><i class="icon fas fa-check"></i><%- mensagemT %></h6>
+      </div>
+    </div>
+    <%} if (mensagemF) { %>
+      <div style="position: fixed; top: 1vw; right: 1vh; width: 25rem; z-index: 1034;">
+        <div class="alert alert-danger alert-dismissible ">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h6><i class="icon fas fa-ban"></i><%- mensagemF %></h6>
+        </div>
+      </div>
+      <%} if (mensagemN) { %>
+        <div style="position: fixed; top: 1vw; right: 1vh; width: 25rem; z-index: 1034;" >
+          <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: #fff;">&times;</button>
+            <h6 style="color: #fff;"><i class="icon fas fa-exclamation-triangle"></i><%- mensagemN %></h6>
+          </div>
+        </div>
+<% } %>
+
+<script>
+    // Define a função para remover a classe "auto-close" da div da mensagem
+    function removeAutoClose() {
+      let msg = document.querySelector('.auto-close');
+      if (msg) {
+        msg.classList.remove('auto-close');
+      }
+    }
+  
+    // Aguarda 5 segundos e remove a classe "auto-close" da div da mensagem
+    setTimeout(removeAutoClose, 10000);
+  
+    $(document).ready(function() {
+    setTimeout(function() {
+      $('.alertHidden').fadeOut('slow');
+    }, 10000);
+  });
+</script>  

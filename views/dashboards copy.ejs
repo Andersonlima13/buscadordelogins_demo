@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/teste.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet"/>
+    <link rel="icon" href="/img/fav_dash.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>Dashboards</title>
+</head>
+
+<body>
+
+    <i class="bi bi-list menu-mobile"></i>
+
+    <aside id='header'>
+
+        <nav id='navbar' class="nav-menu">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home"><i class="bi bi-search" aria-hidden="true"></i> Buscar Aluno</a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboards"><i class="bi bi-bar-chart" aria-hidden="true"></i> Dashboards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#habilidades"><i class="bi bi-list-check" aria-hidden="true"></i>
+                        Suporte</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/upload"><i class="bi bi-plus-square" aria-hidden="true"></i> Adcionar Alunos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-person" aria-hidden="true"></i> Usuários</a>
+                </li>
+
+
+
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="main">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Analise de Dados - Plataformas</h1>
+
+            <div class="icon-row">
+                <a href="https://lookerstudio.google.com/u/0/reporting/ffc58189-78c2-48b3-b0fd-a81fdc7418c3/page/gCp2D" target="_blank">
+                    <div class="icon">
+                        <img src="/img/medalhei_logo.jpg" alt="Ícone 1">
+                        <p>Dashboard Medalhei</p>
+                    </div>
+                </a>
+
+
+                <a class="arvore" href="https://lookerstudio.google.com/reporting/427a4ca9-14fc-44b7-83d8-4bf687127cf9" target="_blank">
+                    <div class="icon">
+                        <img src="/img/arvore_icon.png" alt="Arvore de livros">
+                        <p>Dashboard Arvore de livros</p>
+                    </div>
+                </a>
+
+                <a href="https://lookerstudio.google.com/u/0/reporting/e466feee-4a1d-478b-ac01-d8857d28e4a7/page/sJvaD" target="_blank">
+                    <div class="icon">
+                        <img src="/img/vila_logotipo.png" alt="Ícone 1">
+                        <p>Matriculas 2025</p>
+                    </div>
+                </a>
+
+                <a href="https://lookerstudio.google.com/reporting/5be79cf2-c86c-4c91-a023-fee1e02049b3" target="_blank">
+                    <div class="icon">
+                        <img src="/img/google_logo.jpg" alt="Google dash">
+                        <p>Acesso ao google</p>
+                    </div>
+                
+                    <a href="https://lookerstudio.google.com/reporting/5ee7b46d-6fcc-4c1c-bc17-f2217b7d5f2a" target="_blank">
+                        <div class="icon">
+                            <img src="/img/classapp.png" alt="ClassApp">
+                            <p>Dashboard ClassApp</p>
+
+                    
+
+
+
+                        </div>
+                        
+
+                        
+                            
+                        </div>
+
+
+                </a>
+
+            </div>
+        </div>
+    </body>
+    
+        
+    
+    
+    
+    
+        <script>
+   
+    
+          document.addEventListener('DOMContentLoaded', function() {
+           document.getElementById('buscar-aluno').addEventListener('click', function() {
+               const matricula = document.getElementById('matricula').value;
+   
+               if (!matricula.trim()) {
+                   window.alert("Insira um número de matrícula ou nome");
+                   return; 
+               }
+               
+               window.location.href = `/aluno/${matricula}`;
+           });
+   
+           function downloadPdf(matricula) {
+               window.location.href = '/aluno/' + matricula + '/pdf';
+           }
+       });
+   
+   
+   
+       
+           
+   
+       
+   /*
+         function gerarpdf(){
+           var doc = new jsPDF()
+           doc.fromHTML(`<h1> HTML DE TESTE </h1>`)
+           doc.save(`pdf`)
+   
+         }
+   
+     */
+   
+            
+        </script>
+    
+    
+    </body>
+
+    </main>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/main.js"></script>
+</body>
+
+</html>

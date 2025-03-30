@@ -1,0 +1,38 @@
+{
+  "name": "logins_vila",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "bcrypt": "^5.1.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "flash": "^1.1.0",
+    "hbs": "^4.2.0",
+    "html-pdf": "^3.0.1",
+    "html2pdf.js": "^0.9.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.4",
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
+    "pdfkit": "^0.15.2",
+    "pg": "^8.11.5",
+    "puppeteer": "^22.10.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

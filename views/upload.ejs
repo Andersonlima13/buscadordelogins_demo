@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/teste.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="icon" href="/img/fav_colegiovila.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/index.css">
+    <title>Central Logins</title>
+</head>
+
+<body>
+
+    <i class="bi bi-list menu-mobile"></i>
+
+    <aside id='header'>
+        <nav id='navbar' class="nav-menu">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/Home"><i class="bi bi-search" aria-hidden="true"></i> Buscar Aluno</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboards"><i class="bi bi-bar-chart" aria-hidden="true"></i> Dashboards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#habilidades"><i class="bi bi-list-check" aria-hidden="true"></i> Suporte</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/upload"><i class="bi bi-plus-square" aria-hidden="true"></i> Adcionar Alunos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/usuarios"><i class="bi bi-person" aria-hidden="true"></i> Usuários</a>
+                </li>
+
+
+
+
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="main">
+        <section class="h-100 gradient-form" style="background: linear-gradient(90deg, rgb(14, 34, 63) 1%, rgb(21, 132, 111) 100%);">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-xl-10">
+                        <div class="card rounded-3 text-black bg-black border">
+                            <div class="row g-0">
+                                <div class="col-lg-6 rounded-5" id="input-container">
+                                    <div class="card-body p-md-5 mx-md-4">
+                                        <h1>Importar Planilha de Alunos</h1>
+                                        <form action="/upload" method="POST" enctype="multipart/form-data">
+                                            <label for="file">Escolha a planilha:</label>
+                                            <input class="" type="file" id="file" name="file" accept=".xlsx, .xls" required>
+                                            <br>
+                                            <button id="modal" class="bg-primary rounded-1 border-0" type="submit" data-toggle="modal" data-target="#myModal">Importar</button>
+                                        </form>
+
+                                        <!-- Modal -->
+                                        
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 d-flex align-items-center rounded-5" id="logo-container">
+                                    <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                                        <img src="/img/logo_vila.png" style="width: 320px;" alt="logo">
+                                        <p class="pt-4">Ferramenta para consulta de logins de nossas plataformas digitais.<br> <b>Equipe de TI & TE Colegio vila.</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+            <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    var myModalEl = document.getElementById('myModal');
+    var myModal = new bootstrap.Modal(myModalEl);
+
+    // Abrir o modal
+    document.getElementById('openModal').addEventListener('click', function() {
+        myModal.show();
+    });
+
+    // Fechar o modal via script
+    document.getElementById('closeModal').addEventListener('click', function() {
+        myModal.hide();
+    });
+});
+
+
+
+                 var modal = document.getElementById("myModal");
+
+// Obter o botão que abre o modal
+var btn = document.getElementById("modal");
+
+// Obter o elemento <span> que fecha o modal
+var span = document.getElementsByClassName("close-btn")[0];
+
+// Quando o usuário clicar no botão, abra o modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// Quando o usuário clicar em <span> (x), feche o modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// Quando o usuário clicar fora do modal, feche-o
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+            </script>
+       
+    </main>
+</body>
+</html>
