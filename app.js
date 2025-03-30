@@ -490,44 +490,47 @@ const validateSheet = (data) => {
 
 
 
-app.post('/login' , async (req,res) => {
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Validação para teste/demonstração
+  if (email !== 'admin@teste.com') {
+    req.flash('mensagemFalse', "Usuário não encontrado!");
+    return res.status(404).redirect('back');
+  }
+
+  // Validação de senha fixa para teste (substitua pelo bcrypt.compare em produção)
+  if (password !== 'admin') {
+    req.flash('mensagemFalse', "Senha incorreta!");
+    return res.status(422).redirect('back');
+  }
+
+  try {
+    // Simulação de usuário válido para teste
+    const mockUser = {
+      _id: 'mockId123',
+      email: 'admin@teste.com'
+    };
+
+    const secret = process.env.SECRET_KEY || 'secretTest'; // Fallback para teste
+    const token = jwt.sign({ id: mockUser._id }, secret, { expiresIn: '60m' });
     
-  const {email,password} = req.body
+    res.cookie('token', token, { 
+      httpOnly: true, 
+      secure: false, 
+      maxAge: 60 * 60 * 1000 
+    });
 
-  const user = await User.findOne({email:email})
-
-
-if(!user) { 
-  req.flash('mensagemFalse', "Usuário não encontrado!")
-  return res.status(404).redirect('back')
-}
-const checkPassword = await bcrypt.compare(password, user.password)
-
-if (!checkPassword){
-  req.flash('mensagemFalse', "Senha incorreta!")
-  return res.status(422).redirect('back')
-}
-
-try {
-  const secret = process.env.SECRET_KEY;
- 
-  const token = jwt.sign({ id: user._id }, secret, { expiresIn: '60m' }); // Token expira no tempo passado como parametro
-  res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 60 * 60 * 1000 }); // Cookie expira no tempo passado como parametro
-
-
-  res.status(200).redirect('/dashboards');
-  req.flash('mensagemTrue', 'Usuário conectado !');
-  console.log("Usuário logado:", req.body.email);
-} catch (err) {
-  console.log(err);
-  req.flash('mensagemFalse', 'Erro ao fazer login!');
-  res.status(500).redirect('/login');
-}
-  
-
-})
-
-
+    req.flash('mensagemTrue', 'Usuário conectado!');
+    console.log("Usuário logado:", email);
+    return res.status(200).redirect('/dashboards');
+    
+  } catch (err) {
+    console.error(err);
+    req.flash('mensagemFalse', 'Erro ao fazer login!');
+    return res.status(500).redirect('/login');
+  }
+});
 
 
 
@@ -608,7 +611,7 @@ app.post('/upload', upload.single('file'), verifyTI, async (req, res) => {
 
 // Rota de criação de usuarios
 
-app.post('/register', verifyTI,  async (req,res) => { 
+/*app.post('/register', verifyTI,  async (req,res) => { 
   const  {
     email,
     password,
@@ -654,7 +657,7 @@ app.post('/register', verifyTI,  async (req,res) => {
 
 
 
-
+*/
 
 
 // funcao de autenticacao
