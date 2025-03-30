@@ -493,46 +493,22 @@ const validateSheet = (data) => {
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  // Validação para teste/demonstração
+  // Validação básica de usuário e senha
   if (email !== 'admin@teste.com') {
     req.flash('mensagemFalse', "Usuário não encontrado!");
-    return res.status(404).redirect('back');
+    return res.redirect('back');
   }
 
-  // Validação de senha fixa para teste (substitua pelo bcrypt.compare em produção)
   if (password !== 'admin') {
     req.flash('mensagemFalse', "Senha incorreta!");
-    return res.status(422).redirect('back');
+    return res.redirect('back');
   }
 
-  try {
-    // Simulação de usuário válido para teste
-    const mockUser = {
-      _id: 'mockId123',
-      email: 'admin@teste.com'
-    };
-
-    const secret = process.env.SECRET_KEY || 'secretTest'; // Fallback para teste
-    const token = jwt.sign({ id: mockUser._id }, secret, { expiresIn: '60m' });
-    
-    res.cookie('token', token, { 
-      httpOnly: true, 
-      secure: true, 
-      maxAge: 60 * 60 * 1000 
-    });
-
-    req.flash('mensagemTrue', 'Usuário conectado!');
-    console.log("Usuário logado:", email);
-    return res.status(200).redirect('/dashboards');
-    
-  } catch (err) {
-    console.error(err);
-    req.flash('mensagemFalse', 'Erro ao fazer login!');
-    return res.status(500).redirect('/login');
-  }
+  // Login bem-sucedido
+  req.flash('mensagemTrue', 'Login realizado com sucesso!');
+  console.log("Usuário logado:", email);
+  return res.redirect('/home'); // Redireciona para a rota '/home'
 });
-
-
 
 
 
