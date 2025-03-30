@@ -48,7 +48,7 @@ app.use(session({
 app.use(flash());
 
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 
