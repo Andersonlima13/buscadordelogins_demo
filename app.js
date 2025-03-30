@@ -89,7 +89,7 @@ app.get("/login",  async (req, res) => {
 
 
 
-app.get("/adcionar", verifyTI, async (req, res) => {
+app.get("/adcionar", async (req, res) => {
   const mensagemT = req.flash('mensagemTrue');
   const mensagemF = req.flash('mensagemFalse');
   const mensagemN = req.flash('mensagemNotif');
@@ -107,7 +107,7 @@ app.get("/adcionar", verifyTI, async (req, res) => {
 
 
 
-app.get("/adm", verifyAdm , async (req, res) => {
+app.get("/adm",  async (req, res) => {
   const mensagemT = req.flash('mensagemTrue');
   const mensagemF = req.flash('mensagemFalse');
   const mensagemN = req.flash('mensagemNotif');
@@ -215,7 +215,7 @@ app.listen(process.env.APP_PORT, () => {
 
 
 
-app.get("/register", verifyTI, async (req, res) => {
+app.get("/register", async (req, res) => {
   const mensagemT = req.flash('mensagemTrue');
   const mensagemF = req.flash('mensagemFalse');
   const mensagemN = req.flash('mensagemNotif');
@@ -229,7 +229,7 @@ app.get("/register", verifyTI, async (req, res) => {
 
 
 
-app.get('/Home', authenticateToken, async (req, res) => {
+app.get('/Home', async (req, res) => {
   const mensagemT = req.flash('mensagemTrue');
   const mensagemF = req.flash('mensagemFalse');
   const mensagemN = req.flash('mensagemNotif');
@@ -255,7 +255,7 @@ app.get('/Home', authenticateToken, async (req, res) => {
 
 
 
-app.get("/dashboards/olimpiadas", authenticateToken , async (req, res) => {
+app.get("/dashboards/olimpiadas" , async (req, res) => {
   const mensagemT = req.flash('mensagemTrue');
   const mensagemF = req.flash('mensagemFalse');
   const mensagemN = req.flash('mensagemNotif');
@@ -272,14 +272,14 @@ app.get("/dashboards/olimpiadas", authenticateToken , async (req, res) => {
 
 
 
-app.get("/usuarios", authenticateToken , async (req, res) => {
+app.get("/usuarios" , async (req, res) => {
       res.render('usuarios') 
 });
 
 
 
 
-app.get("/dashboards", authenticateToken , async (req, res) => {
+app.get("/dashboards" , async (req, res) => {
   const mensagemT = req.flash('mensagemTrue');
   const mensagemF = req.flash('mensagemFalse');
   const mensagemN = req.flash('mensagemNotif');
@@ -297,7 +297,7 @@ app.get("/dashboards", authenticateToken , async (req, res) => {
 
 
 
-app.get("/resultados", verifyAdm, async (req, res) => {
+app.get("/resultados", async (req, res) => {
   const mensagemT = req.flash('mensagemTrue');
   const mensagemF = req.flash('mensagemFalse');
   const mensagemN = req.flash('mensagemNotif');
@@ -311,7 +311,7 @@ app.get("/resultados", verifyAdm, async (req, res) => {
 
 // ROTA DE UPLOAD (TESTE )
 
-app.get('/upload', authenticateToken, (req, res) => {
+app.get('/upload', (req, res) => {
   const mensagemT = req.flash('mensagemTrue');
   const mensagemF = req.flash('mensagemFalse');
   const mensagemN = req.flash('mensagemNotif');
@@ -324,7 +324,7 @@ app.get('/upload', authenticateToken, (req, res) => {
 
 
 
-app.get('/404', authenticateToken, (req, res) => {
+app.get('/404', (req, res) => {
   res.render('notfound');
 });
 
@@ -338,7 +338,7 @@ app.get('/404', authenticateToken, (req, res) => {
 // ao buscar por nome o usuario é redirecionado para a view rotateste , contendo o nome dos usuarios encontrados pela busca
 
 
-app.get("/aluno/:param", verifyAdm, async (req, res) => {
+app.get("/aluno/:param", async (req, res) => {
   try {
       const param = req.params.param;
       let query, values;
@@ -380,7 +380,7 @@ app.get("/aluno/:param", verifyAdm, async (req, res) => {
 
 
 
-app.get("/alunos",verifyAdm,  async (req, res) => {
+app.get("/alunos",  async (req, res) => {
   try {
     const query = 'SELECT * FROM ALUNO';
     const result = await pool.query(query);
@@ -410,7 +410,7 @@ app.get("/alunos",verifyAdm,  async (req, res) => {
 
 
 
-app.get("/aluno",verifyAdm, async (req, res) => {
+app.get("/aluno", async (req, res) => {
   
   try {
     const searchType = req.query.searchType;
@@ -643,7 +643,7 @@ app.post('/upload', upload.single('file'), verifyTI, async (req, res) => {
 
 
 
-function authenticateToken(req, res, next) {
+/*function authenticateToken(req, res, next) {
   const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
@@ -671,7 +671,7 @@ function authenticateToken(req, res, next) {
 
 
 
-
+*/
 
 // rota de autenticacao 
 

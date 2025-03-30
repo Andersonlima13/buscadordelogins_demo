@@ -9,17 +9,12 @@
           "public/**",
           "views/**",
           "css/**", 
-          "img/**",
-          "model/**"
+          "img/**"
         ]
       }
     }
   ],
   "routes": [
-    {
-      "src": "/(css|img|public)/(.*)",
-      "dest": "/$1/$2"
-    },
     {
       "src": "/(.*)", 
       "dest": "app.js"
