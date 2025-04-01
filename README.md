@@ -1,6 +1,13 @@
 ### <h1>Consulta Plataformas - Colegio vila</h1>
 ### Autores
-Anderson Sousa
+Anderson Sousa De Lima
+
+
+### Versão Demonstrativa :
+Conta apenas com dados ficticios, afim de demonstrações de uso , que não condizem com a versão de ultilizada no ambiente de produção.
+
+[BUSCADOR DE LOGINS](https://buscadordelogins-demo-h5y1.vercel.app)
+
 
 ### Descrição do Problema
 O projeto consiste em resolver um problema recorrente na instituição, onde grande parte dos alunos não sabe qual plataforma educacional é ultilizada na escola, ou até quais dessa o mesmo tem acesso, ou por vezes
