@@ -1,13 +1,6 @@
 # Ignorar a pasta node_modules
 node_modules/
-public/*
-!public/adminlte/
-public/adminlte/*
-!public/adminlte/plugins/
-public/adminlte/plugins/*
-!public/adminlte/plugins/jquery/
-!public/adminlte/plugins/bootstrap/
-!public/adminlte/plugins/fontawesome-free/
+
 
 
 # Ignorar o arquivo de configuração do ambiente
