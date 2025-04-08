@@ -4,7 +4,8 @@ Anderson Sousa De Lima
 
 
 ### Versão Demonstrativa :
-Conta apenas com dados ficticios, afim de demonstrações de uso , que não condizem com a versão de ultilizada no ambiente de produção.
+Conta apenas com dados ficticios, afim de demonstrações de uso , que não condiz com a versão ultilizada no ambiente de produção.
+
 ### Acesso :
 Login : admin@teste.com
 Senha : admin
