@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel Admin | Paginação Inteligente</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../public/adminlte/plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../public/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../public/adminlte/dist/css/adminlte.min.css">
+
+  <style>
+    .pagination-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .pagination-btn {
+      margin: 0 5px;
+      display: none; /* Inicialmente escondido */
+    }
+    .dataTables_empty {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Content Header -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Páginação Inteligente</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Lista de Usuários</h3>
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 250px;">
+                    <input type="text" id="userSearch" class="form-control" placeholder="Buscar...">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="card-body">
+                <table id="smartTable" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nome</th>
+                      <th>E-mail</th>
+                      <th>Cargo</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="userTableBody">
+                    <!-- Dados serão inseridos via JavaScript -->
+                  </tbody>
+                </table>
+                
+                <!-- Controles de paginação -->
+                <div class="pagination-controls">
+                  <button id="prevPage" class="btn btn-sm btn-primary pagination-btn">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                  </button>
+                  <span id="pageInfo" class="mx-2 my-auto"></span>
+                  <button id="nextPage" class="btn btn-sm btn-primary pagination-btn">
+                    Próxima <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- jQuery -->
+<script src="../public/adminlte/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../public/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Implementação da Paginação Inteligente -->
+<script>
+$(document).ready(function() {
+  // Dados de exemplo (simulando banco de dados)
+  const allUsers = [
+    {id: 1, name: "João Silva", email: "joao@empresa.com", role: "Desenvolvedor", status: "Ativo"},
+    {id: 2, name: "Maria Souza", email: "maria@empresa.com", role: "Designer", status: "Ativo"},
+    {id: 3, name: "Carlos Oliveira", email: "carlos@empresa.com", role: "Gerente", status: "Férias"},
+    {id: 4, name: "Ana Santos", email: "ana@empresa.com", role: "RH", status: "Ativo"},
+    {id: 5, name: "Pedro Costa", email: "pedro@empresa.com", role: "Analista", status: "Inativo"},
+    {id: 6, name: "Luísa Fernandes", email: "luisa@empresa.com", role: "Marketing", status: "Ativo"},
+    {id: 7, name: "Rafael Pereira", email: "rafael@empresa.com", role: "Desenvolvedor", status: "Ativo"},
+    {id: 8, name: "Fernanda Lima", email: "fernanda@empresa.com", role: "Financeiro", status: "Afastado"},
+    {id: 9, name: "Marcos Antônio", email: "marcos@empresa.com", role: "Diretor", status: "Ativo"},
+    {id: 10, name: "Juliana Martins", email: "juliana@empresa.com", role: "Vendas", status: "Ativo"},
+    {id: 11, name: "Roberto Almeida", email: "roberto@empresa.com", role: "Suporte", status: "Ativo"},
+    {id: 12, name: "Patrícia Nunes", email: "patricia@empresa.com", role: "QA", status: "Ativo"}
+  ];
+
+  // Configurações de paginação
+  const usersPerPage = 10;
+  let currentPage = 1;
+  let filteredUsers = [...allUsers];
+
+  // Função para renderizar usuários
+  function renderUsers() {
+    const start = (currentPage - 1) * usersPerPage;
+    const end = start + usersPerPage;
+    const usersToShow = filteredUsers.slice(start, end);
+    
+    $('#userTableBody').empty();
+    
+    usersToShow.forEach(user => {
+      const statusClass = user.status === "Ativo" ? "bg-success" : 
+                         user.status === "Inativo" ? "bg-danger" :
+                         user.status === "Férias" ? "bg-warning" : "bg-secondary";
+      
+      $('#userTableBody').append(`
+        <tr>
+          <td>${user.id}</td>
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>${user.role}</td>
+          <td><span class="badge ${statusClass}">${user.status}</span></td>
+        </tr>
+      `);
+    });
+
+    // Atualiza controles de paginação
+    updatePaginationControls();
+  }
+
+  // Função para atualizar controles de paginação
+  function updatePaginationControls() {
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+    
+    // Mostra/Esconde controles se houver mais de 10 usuários
+    if (filteredUsers.length > usersPerPage) {
+      $('.pagination-btn').show();
+    } else {
+      $('.pagination-btn').hide();
+    }
+    
+    // Atualiza informações da página
+    $('#pageInfo').text(`Página ${currentPage} de ${totalPages}`);
+    
+    // Desabilita botões quando necessário
+    $('#prevPage').prop('disabled', currentPage === 1);
+    $('#nextPage').prop('disabled', currentPage === totalPages);
+  }
+
+  // Função de busca
+  function searchUsers(term) {
+    term = term.toLowerCase();
+    filteredUsers = allUsers.filter(user => 
+      user.name.toLowerCase().includes(term) ||
+      user.email.toLowerCase().includes(term) ||
+      user.role.toLowerCase().includes(term) ||
+      user.status.toLowerCase().includes(term)
+    );
+    currentPage = 1; // Reset para primeira página ao buscar
+    renderUsers();
+  }
+
+  // Eventos
+  $('#userSearch').on('input', function() {
+    searchUsers($(this).val());
+  });
+
+  $('#prevPage').click(function() {
+    if (currentPage > 1) {
+      currentPage--;
+      renderUsers();
+    }
+  });
+
+  $('#nextPage').click(function() {
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderUsers();
+    }
+  });
+
+  // Renderiza inicialmente
+  renderUsers();
+});
+</script>
+</body>
+</html>

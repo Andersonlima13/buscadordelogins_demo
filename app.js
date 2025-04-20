@@ -7,6 +7,7 @@ const { Pool } = require('pg');
 const ExcelJS = require('exceljs');
 const PDFDocument = require('pdfkit');
 const archiver = require('archiver');
+const cors = require('cors')
 
 
 
@@ -38,6 +39,29 @@ require('dotenv').config();
 //homeRoute = require('./routes/home');
 
 
+
+
+/// definindo o cors para o front end
+app.use(cors({
+  origin: 'http://localhost:3001', // URL do seu frontend
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+
+}));
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.use(session({
   secret: '123456',
   resave: false,
@@ -60,6 +84,11 @@ app.get("/", async (req, res) => {
 });
 
 
+
+app.get("/data", async (req, res) => {
+  
+  res.render('data');
+});
 
 
 app.get("/teste", async (req, res) => {
@@ -196,7 +225,7 @@ pool.connect((err, client, release) => {
 });
 
 // Requisições HTTP
-app.listen(process.env.APP_PORT, () => {
+app.listen(3050,'0.0.0.0',() => {
   console.log("Servidor iniciado com sucesso!");
 });
 

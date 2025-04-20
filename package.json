@@ -30,9 +30,11 @@
     "pdfkit": "^0.15.2",
     "pg": "^8.11.5",
     "puppeteer": "^22.10.0",
+    "styled-components": "^6.1.17",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^2.1.4",
     "nodemon": "^3.1.0"
   }
 }
