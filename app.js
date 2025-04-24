@@ -43,7 +43,7 @@ require('dotenv').config();
 
 /// definindo o cors para o front end
 app.use(cors({
-  origin: 'http://localhost:3001', // URL do seu frontend
+  origin: 'http://localhost:3000', // URL do seu frontend
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
