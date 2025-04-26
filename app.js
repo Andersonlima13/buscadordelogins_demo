@@ -43,7 +43,7 @@ require('dotenv').config();
 
 /// definindo o cors para o front end
 app.use(cors({
-  origin: 'http://localhost:3000', // URL do seu frontend
+  origin: 'http://localhost:3001', // URL do seu frontend
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -422,10 +422,37 @@ app.get("/alunos",  async (req, res) => {
   }
 });
 
+// rota do front com o bacck
+app.get("/alunos/:matricula", async (req, res) => {
 
 
 
+  try {
+    
+    const { matricula } = req.params;
+    
+    // Busca direta pela matrícula
+    const result = await pool.query(
+      'SELECT * FROM aluno WHERE matricula = $1', 
+      [matricula]
+    );
 
+    if (result.rows.length === 0) {
+      return res.status(404).json({ 
+        error: 'Aluno não encontrado' 
+      });
+    }
+
+    // Retorna TODOS os dados do aluno em JSON
+    res.json(result.rows[0]);
+
+  } catch (error) {
+    console.error('Erro no backend:', error);
+    res.status(500).json({ 
+      error: 'Erro interno no servidor' 
+    });
+  }
+});
 
 
 
