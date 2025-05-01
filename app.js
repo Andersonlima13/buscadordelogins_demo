@@ -410,6 +410,46 @@ app.get("/aluno/:param", async (req, res) => {
 
 
 
+
+
+
+
+
+
+/// comecar , funcao de get no sql
+
+app.get("/alunos/sql", async (req, res) => {
+  try {
+    const query = 'SELECT * FROM ALUNO';
+    const result = await pool.query(query);
+    const alunos = result.rows;
+
+    // Gerar script SQL de INSERT para cada aluno
+    const sqlScript = alunos.map(aluno => {
+      const columns = Object.keys(aluno).join(', ');
+      const values = Object.values(aluno).map(value => 
+        typeof value === 'string' ? `'${value.replace(/'/g, "''")}'` : value
+      ).join(', ');
+      
+      return `INSERT INTO ALUNO (${columns}) VALUES (${values});`;
+    }).join('\n');
+
+    // Configurar headers para download
+    res.setHeader('Content-Type', 'text/sql');
+    res.setHeader('Content-Disposition', 'attachment; filename="alunos_export.sql"');
+    res.send(sqlScript);
+  } catch (error) {
+    console.error('Erro ao gerar SQL dos alunos:', error);
+    res.status(500).send('Erro ao gerar SQL dos alunos.');
+  }
+});
+
+
+
+
+
+
+
 app.get("/alunos",  async (req, res) => {
   try {
     const query = 'SELECT * FROM ALUNO';
