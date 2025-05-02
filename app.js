@@ -935,3 +935,30 @@ app.get('/aluno/:id', async (req, res) => {
 
 
 
+// rota get do back end , retornando via json
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.json(users); // Retorna diretamente o array de usuários
+    
+  } catch (err) {
+    res.status(500).json({ 
+      error: "Falha ao carregar usuários" 
+    });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
