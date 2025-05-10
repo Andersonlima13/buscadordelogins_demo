@@ -843,7 +843,7 @@ async function verifyTI(req, res, next) {
 }
 
 
-app.get('/download-modelo', async (req, res) => {
+app.get('/home/download-modelo', async (req, res) => {
   // Criar uma nova instância do workbook e worksheet
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Modelo');
