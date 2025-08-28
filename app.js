@@ -31,12 +31,9 @@ app.use(cookieParser());
 require('dotenv').config();
 
 
-// IMPORTAÇÃO DE ROTAS // QUE VEM DO ARQUIVO ROUTES , CADA ARQUIVO , CADA ROTA
-//testederota = require('./routes/testederota');
-//dashboardRoute = require('./routes/dashboards');
-//loginRoute = require('./routes/login');
-//registerRoute = require('./routes/register');
-//homeRoute = require('./routes/home');
+const userRoutes = require('./routes/users')
+
+app.use('/users', userRoutes);
 
 
 
