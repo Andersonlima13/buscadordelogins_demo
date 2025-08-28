@@ -760,7 +760,7 @@ app.post('/upload', upload.single('file'), verifyTI, async (req, res) => {
 
 
 
-
+// middleware autenticacao
 async function verifyAdm(req, res, next) {
   const token = req.cookies.token;
 
@@ -803,7 +803,7 @@ async function verifyAdm(req, res, next) {
 
 
 
-
+/// outro middleware aqui
 
 async function verifyTI(req, res, next) {
   const token = req.cookies.token;
@@ -886,6 +886,9 @@ app.get('/home/download-modelo', async (req, res) => {
 
 
 
+
+/// metodo de aluno
+
 app.get('/aluno/:id', async (req, res) => {
   try {
       const id = req.params.id;
@@ -906,7 +909,7 @@ app.get('/aluno/:id', async (req, res) => {
 });
 
 
-
+// metodo de users
 
 // rota get do back end , retornando via json
 app.get('/users', async (req, res) => {

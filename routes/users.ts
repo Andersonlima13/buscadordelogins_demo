@@ -6,6 +6,31 @@ const userController = require('../controllers/userController')
 
 // -> Legibilidade -> 'Rota' -> Controller -> Metodo acionado
 
-router.get('/', userController.getAllUsers); 
+// Operações CRUD de users em cima de alunos 
+
+// GET all users
+router.get('/alunos', userController.getAllStudents); 
+// DELETE user POR MATRICULA       
+router.post('alunos/delete/:id', userController.deleteStudentById);
+// UPDATE user POR MATRICULA
+router.post('alunos/update/:id', userController.updateStudentById);
+// CREATE USER
+router.post('alunos/create', userController.createStudent);
+
+
+// Operação de USER Em cima de User
+
+router.get('/', userController.getAllUsers);
+
+router.post('/create', userController.createUser);
+
+router.post('/delete/:id', userController.deleteUserById);
+
+
+
+
+module.exports = router;
+
+
 
 
