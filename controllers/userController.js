@@ -1,125 +1,155 @@
-// Cada metodo deve ser carregado aqui
-import User from '../model/user'
+const User = require('../model/user');
+const bcrypt = require('bcrypt');
+const { Pool } = require('pg');
+const pool = require('../config/db'); // importa o pool
 
 
+//
+// ---- Postgres: Alunos ----
+//
+exports.getAllStudents = async (req, res) => {
+    try {
+      const query = 'SELECT * FROM ALUNO';
+      const result = await pool.query(query);
+      const alunos = result.rows;
+      res.json(alunos)
+    }
+    catch(error){console.log(error)
+    }
 
-
-exports.getAllStudents = async (req,res) => {
-  try {
-  // importar selects (arquivo de consultas separado)
-    const query = 'SELECT * FROM ALUNO';
-    const result = await pool.query(query);
-    const alunos = result.rows;
-    res.json(alunos);
-  
-  // tratar esse erro com classes
-  } catch (error) {
-    console.error('Erro ao obter os dados dos alunos:', error);
-    res.status(500).send('Erro ao obter os dados dods alunos.');
-  }
 }
 
-
-export.getStudentById = async (req,res) => {
-  try {   
+exports.getStudentById = async (req, res) => {
+  try {
     const { matricula } = req.params;
-    
-    // Busca direta pela matrícula
-    // isso aqui vai para uma arquivo de consultas especifico
     const result = await pool.query(
-      'SELECT * FROM aluno WHERE matricula = $1', 
+      'SELECT * FROM ALUNO WHERE matricula = $1',
       [matricula]
     );
 
-
-// tratamentos de erro
     if (result.rows.length === 0) {
-      return res.status(404).json({ 
-        error: 'Aluno não encontrado' 
-      });
+      return res.status(404).json({ error: 'Aluno não encontrado' });
     }
 
-
-    // Retorna TODOS os dados do aluno em JSON
     res.json(result.rows[0]);
-
   } catch (error) {
     console.error('Erro no backend:', error);
-    res.status(500).json({ 
-      error: 'Erro interno no servidor' 
-    });
+    res.status(500).json({ error: 'Erro interno no servidor' });
   }
-}
+};
 
+exports.createStudent = async (req, res) => {
+  try {
+    const { nome, matricula } = req.body;
+    const result = await pool.query(
+      'INSERT INTO ALUNO (nome, matricula) VALUES ($1, $2) RETURNING *',
+      [nome, matricula]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Erro ao criar aluno:', error);
+    res.status(500).send('Erro ao criar aluno');
+  }
+};
 
+exports.updateStudentById = async (req, res) => {
+  try {
+    const { id } = req.params; // supondo que seja matricula
+    const { nome } = req.body;
 
+    const result = await pool.query(
+      'UPDATE ALUNO SET nome = $1 WHERE matricula = $2 RETURNING *',
+      [nome, id]
+    );
 
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Aluno não encontrado' });
+    }
 
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Erro ao atualizar aluno:', error);
+    res.status(500).send('Erro ao atualizar aluno');
+  }
+};
 
+exports.deleteStudentById = async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    const result = await pool.query(
+      'DELETE FROM ALUNO WHERE matricula = $1 RETURNING *',
+      [id]
+    );
 
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Aluno não encontrado' });
+    }
 
+    res.json({ message: 'Aluno deletado com sucesso', aluno: result.rows[0] });
+  } catch (error) {
+    console.error('Erro ao deletar aluno:', error);
+    res.status(500).send('Erro ao deletar aluno');
+  }
+};
 
-
-
-
-
-
-
-
-
-
-
-exports.getAllUsers = async (req,res) => {
-      try {
+//
+// ---- MongoDB: Users ----
+//
+exports.getAllUsers = async (req, res) => {
+  try {
     const users = await User.find({});
-    res.json(users); 
-    
+    res.json(users);
   } catch (err) {
-    res.status(500).json({ 
-      error: "Falha ao carregar usuários" 
-    });
+    res.status(500).json({ error: 'Falha ao carregar usuários' });
   }
-}
+};
 
+exports.createUser = async (req, res) => {
+  const { email, password, perfil } = req.body;
 
-exports.CreateUser = async (req,res) => {
-  const  {
-    email,
-    password,
-    perfil 
-  } = req.body
-
-  if(!email){
-    req.flash('mensagemFalse', 'Insira um nome e senha validos');
+  if (!email) {
+    req.flash('mensagemFalse', 'Insira um nome e senha válidos');
     return res.status(422).redirect('back');
   }
 
-  const Userexists = await User.findOne({email:email})
-  
-  if(Userexists) { 
+  const userExists = await User.findOne({ email });
+  if (userExists) {
     req.flash('mensagemFalse', 'O usuário já existe! tente fazer login');
-      return res.status(422).redirect('back');
+    return res.status(422).redirect('back');
   }
 
-  const salt = await bcrypt.genSalt(12)
-  const passwordHash = await bcrypt.hash(password, salt)
-  const user = new User({
-    email,
-    password : passwordHash,
-    perfil,
-  })
+  const salt = await bcrypt.genSalt(12);
+  const passwordHash = await bcrypt.hash(password, salt);
 
-  try{
-    await user.save()
+  const user = new User({ email, password: passwordHash, perfil });
+
+  try {
+    await user.save();
     req.flash('mensagemTrue', 'Usuário criado com sucesso!');
     return res.status(201).redirect('back');
-  }
-  catch{
-    req.flash('mensagemFalse', 'Erro ao criar usuário! Atualize a pagina e tente novamente');
+  } catch {
+    req.flash(
+      'mensagemFalse',
+      'Erro ao criar usuário! Atualize a página e tente novamente'
+    );
     return res.status(500).redirect('back');
-
   }
-}
+};
 
+exports.deleteUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    res.json({ message: 'Usuário deletado com sucesso', user });
+  } catch (err) {
+    console.error('Erro ao deletar usuário:', err);
+    res.status(500).json({ error: 'Erro ao deletar usuário' });
+  }
+};

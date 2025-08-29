@@ -32,7 +32,6 @@ require('dotenv').config();
 
 
 const userRoutes = require('./routes/users')
-
 app.use('/users', userRoutes);
 
 
@@ -203,7 +202,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname));
 
 // Criação do banco pool
-const pool = new Pool({
+/* const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'PLATAFORMAS_ALUNOS',
@@ -220,7 +219,7 @@ pool.connect((err, client, release) => {
     console.log('Conexão bem-sucedida com o banco de dados!');
   }
 });
-
+*/
 // Requisições HTTP
 app.listen(3050,'0.0.0.0',() => {
   console.log("Servidor iniciado com sucesso!");
@@ -423,7 +422,7 @@ app.get("/aluno/:param", async (req, res) => {
 
 
 
-app.get("/alunos",  async (req, res) => {
+/* app.get("/alunos",  async (req, res) => {
   try {
     const query = 'SELECT * FROM ALUNO';
     const result = await pool.query(query);
@@ -473,7 +472,7 @@ app.get("/alunos/:matricula", async (req, res) => {
 
 
 
-
+/
 
 
 
