@@ -1,14 +1,10 @@
 ﻿const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
-const { Pool } = require('pg');
 const ExcelJS = require('exceljs');
-const PDFDocument = require('pdfkit');
-const archiver = require('archiver');
 const cors = require('cors')
-
+const pool = require('./config/db')
 
 
 
@@ -363,7 +359,7 @@ app.get('/404', (req, res) => {
 //  principal requisiçao , deve buscar um aluno por nome ou matricula , dependendo do paramentro (param) passado pelo usuario
 // ao buscar por nome o usuario é redirecionado para a view rotateste , contendo o nome dos usuarios encontrados pela busca
 
-
+/*
 app.get("/aluno/:param", async (req, res) => {
   try {
       const param = req.params.param;
@@ -381,7 +377,7 @@ app.get("/aluno/:param", async (req, res) => {
           }
 
           const aluno = result.rows[0];
-          res.render('aluno', { aluno });
+          res.json( { aluno });
       } else {
           // Caso contrário, considere como nome (usando ILIKE para case-insensitive match)
           query = 'SELECT * FROM ALUNO WHERE NOME ILIKE $1';
@@ -405,7 +401,7 @@ app.get("/aluno/:param", async (req, res) => {
 
 
 
-
+*/
 
 
 
@@ -887,7 +883,7 @@ app.get('/home/download-modelo', async (req, res) => {
 
 
 /// metodo de aluno
-
+/*
 app.get('/aluno/:id', async (req, res) => {
   try {
       const id = req.params.id;
@@ -900,13 +896,13 @@ app.get('/aluno/:id', async (req, res) => {
       }
 
       // Renderiza o HTML específico desse aluno com o template EJS
-      res.render('alunoTemplate', { aluno });
+      res.json( { aluno });
   } catch (error) {
       console.error('Erro ao buscar aluno:', error);
       res.status(500).send('Erro interno no servidor');
   }
 });
-
+*/ 
 
 // metodo de users
 

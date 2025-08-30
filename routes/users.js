@@ -9,9 +9,12 @@ router.post('/alunos/create', userController.createStudent);
 router.put('/alunos/update/:id', userController.updateStudentById);
 router.delete('/alunos/delete/:id', userController.deleteStudentById);
 
+
+
+// rotas de usuarios mongo db
 // ---- Usuários (MongoDB) ----
-router.get('/usuarios', userController.getAllUsers);
-router.post('/usuarios/create', userController.createUser);
-router.delete('/usuarios/delete/:id', userController.deleteUserById);
+router.get('/admin', userController.getAllUsers);
+router.post('/admin/create', userController.createUser);
+router.delete('/admin/delete/:id', userController.deleteUserById);
 
 module.exports = router;

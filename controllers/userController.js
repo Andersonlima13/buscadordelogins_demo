@@ -1,6 +1,5 @@
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
-const { Pool } = require('pg');
 const pool = require('../config/db'); // importa o pool
 
 
@@ -53,25 +52,49 @@ exports.createStudent = async (req, res) => {
 };
 
 exports.updateStudentById = async (req, res) => {
-  try {
-    const { id } = req.params; // supondo que seja matricula
-    const { nome } = req.body;
+    try {
+      const param = req.params.param;
+      let query, values;
 
-    const result = await pool.query(
-      'UPDATE ALUNO SET nome = $1 WHERE matricula = $2 RETURNING *',
-      [nome, id]
-    );
+      if (/^\d+$/.test(param)) { 
+          // Se o parâmetro for composto apenas por dígitos, considere como matrícula
+          query = 'SELECT * FROM ALUNO WHERE MATRICULA = $1';
+          values = [param];
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Aluno não encontrado' });
-    }
+          const result = await pool.query(query, values);
 
-    res.json(result.rows[0]);
+          if (result.rows.length === 0) {
+              return res.status(404).send('Aluno não encontrado.');
+          }
+
+          const aluno = result.rows[0];
+          res.json( { aluno });
+      } else {
+          // Caso contrário, considere como nome (usando ILIKE para case-insensitive match)
+          query = 'SELECT * FROM ALUNO WHERE NOME ILIKE $1';
+          values = [`%${param}%`];
+
+          const result = await pool.query(query, values);
+
+          if (result.rows.length === 0) {
+              return res.status(404).send('Aluno não encontrado.');
+          }
+
+          const alunos = result.rows;
+          res.render('rotateste', { alunos });
+      }
   } catch (error) {
-    console.error('Erro ao atualizar aluno:', error);
-    res.status(500).send('Erro ao atualizar aluno');
+      console.error('Erro ao executar a consulta:', error);
+      res.status(500).send('Erro ao executar a consulta.');
   }
+
 };
+
+
+
+
+
+
 
 exports.deleteStudentById = async (req, res) => {
   try {
