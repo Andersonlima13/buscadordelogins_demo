@@ -19,7 +19,6 @@ const mongoose = require('mongoose')
 
 const User = require('./model/user')
 const session = require('express-session');
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 app.use(express.urlencoded({ extended: true }));
 const cookieParser = require('cookie-parser');
@@ -74,22 +73,6 @@ app.get("/", async (req, res) => {
   
   res.redirect('/login');
 });
-
-
-
-app.get("/data", async (req, res) => {
-  
-  res.render('data');
-});
-
-
-app.get("/teste", async (req, res) => {
-  
-  res.render('teste');
-});
-
-
-
 
 
 app.get("/login",  async (req, res) => {
@@ -197,25 +180,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(__dirname));
 
-// Criação do banco pool
-/* const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'PLATAFORMAS_ALUNOS',
-  password: '12345',
-  port:5432,
-})
 
-
-// Conexão com o banco de dados
-pool.connect((err, client, release) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados:', err);
-  } else {
-    console.log('Conexão bem-sucedida com o banco de dados!');
-  }
-});
-*/
 // Requisições HTTP
 app.listen(3050,'0.0.0.0',() => {
   console.log("Servidor iniciado com sucesso!");
@@ -356,59 +321,6 @@ app.get('/404', (req, res) => {
 
 
 
-//  principal requisiçao , deve buscar um aluno por nome ou matricula , dependendo do paramentro (param) passado pelo usuario
-// ao buscar por nome o usuario é redirecionado para a view rotateste , contendo o nome dos usuarios encontrados pela busca
-
-/*
-app.get("/aluno/:param", async (req, res) => {
-  try {
-      const param = req.params.param;
-      let query, values;
-
-      if (/^\d+$/.test(param)) { 
-          // Se o parâmetro for composto apenas por dígitos, considere como matrícula
-          query = 'SELECT * FROM ALUNO WHERE MATRICULA = $1';
-          values = [param];
-
-          const result = await pool.query(query, values);
-
-          if (result.rows.length === 0) {
-              return res.status(404).send('Aluno não encontrado.');
-          }
-
-          const aluno = result.rows[0];
-          res.json( { aluno });
-      } else {
-          // Caso contrário, considere como nome (usando ILIKE para case-insensitive match)
-          query = 'SELECT * FROM ALUNO WHERE NOME ILIKE $1';
-          values = [`%${param}%`];
-
-          const result = await pool.query(query, values);
-
-          if (result.rows.length === 0) {
-              return res.status(404).send('Aluno não encontrado.');
-          }
-
-          const alunos = result.rows;
-          res.render('rotateste', { alunos });
-      }
-  } catch (error) {
-      console.error('Erro ao executar a consulta:', error);
-      res.status(500).send('Erro ao executar a consulta.');
-  }
-});
-
-
-
-
-*/
-
-
-
-
-
-
-/// comecar , funcao de get no sql
 
 
 
@@ -417,108 +329,6 @@ app.get("/aluno/:param", async (req, res) => {
 
 
 
-
-/* app.get("/alunos",  async (req, res) => {
-  try {
-    const query = 'SELECT * FROM ALUNO';
-    const result = await pool.query(query);
-    const alunos = result.rows;
-    res.json(alunos);
-  } catch (error) {
-    console.error('Erro ao obter os dados dos alunos:', error);
-    res.status(500).send('Erro ao obter os dados dods alunos.');
-  }
-});
-
-// rota do front com o bacck
-app.get("/alunos/:matricula", async (req, res) => {
-
-
-
-  try {
-    
-    const { matricula } = req.params;
-    
-    // Busca direta pela matrícula
-    const result = await pool.query(
-      'SELECT * FROM aluno WHERE matricula = $1', 
-      [matricula]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ 
-        error: 'Aluno não encontrado' 
-      });
-    }
-
-    // Retorna TODOS os dados do aluno em JSON
-    res.json(result.rows[0]);
-
-  } catch (error) {
-    console.error('Erro no backend:', error);
-    res.status(500).json({ 
-      error: 'Erro interno no servidor' 
-    });
-  }
-});
-
-
-
-
-
-
-
-/
-
-
-
-
-
-
-app.get("/aluno", async (req, res) => {
-  
-  try {
-    const searchType = req.query.searchType;
-    const param = req.query.param;
-
-    let query, values;
-
-    if (searchType === 'matricula') {
-      query = 'SELECT * FROM ALUNO WHERE MATRICULA = $1';
-      values = [param];
-    } else if (searchType === 'nome') {
-
-      query = 'SELECT NOME, MATRICULA, SERIE FROM ALUNO WHERE NOME ILIKE $1 LIMIT 8';
-      values = [`%${param}%`];
-    } else {
-      return res.status(400).send('Tipo de busca inválido.');
-    }
-
-    const result = await pool.query(query, values);
-
-
-
-    if (result.rows.length === 0) {
-    
-      req.flash('mensagemFalse', "Aluno não encontrado")
-      return res.redirect('back');
-
-    }
-    if (searchType === 'matricula') {
-      const aluno = result.rows[0];
-      res.render('aluno', { aluno });
-
-
-    } else {
-      const alunos = result.rows;
-      res.render('resultados', { alunos });
-
-    }
-  } catch (error) {
-    console.error('Erro ao executar a consulta:', error);
-    res.status(500).send('Erro ao executar a consulta.');
-  }
-});
 
 
 
@@ -647,106 +457,6 @@ app.post('/upload', upload.single('file'), verifyTI, async (req, res) => {
 });
 
 
-
-
-
-// Rota de criação de usuarios
-
-/*app.post('/register', verifyTI,  async (req,res) => { 
-  const  {
-    email,
-    password,
-    perfil 
-  } = req.body
-
-  if(!email){
-    req.flash('mensagemFalse', 'Insira um nome e senha validos');
-    return res.status(422).redirect('back');
-  }
-
-  const Userexists = await User.findOne({email:email})
-
-
-  if(Userexists) { 
-    req.flash('mensagemFalse', 'O usuário já existe! tente fazer login');
-      return res.status(422).redirect('back');
-  }
-
-
-  const salt = await bcrypt.genSalt(12)
-  const passwordHash = await bcrypt.hash(password, salt)
-  const user = new User({
-    email,
-    password : passwordHash,
-    perfil,
-  })
-
-  try{
-    await user.save()
-    req.flash('mensagemTrue', 'Usuário criado com sucesso!');
-    return res.status(201).redirect('back');
-  }
-  catch{
-    req.flash('mensagemFalse', 'Erro ao criar usuário! Atualize a pagina e tente novamente');
-    return res.status(500).redirect('back');
-
-  }
-})
-
-
-
-
-
-
-*/
-
-
-// funcao de autenticacao
-
-
-
-
-
-
-/*function authenticateToken(req, res, next) {
-  const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
-
-  if (!token) {
-    req.flash('mensagemFalse', 'Usuário não econtrado');
-    return res.status(401).redirect('/login');
-  }
-
-    
-  try {
-      const secret = process.env.SECRET_KEY;
-      const decoded = jwt.verify(token, secret);
-      req.user = decoded; // Adiciona as informações do usuário no req
-      next(); // Permite que a requisição prossiga
-  } catch (err) {
-      req.flash('mensagemFalse', 'Token inválido! Por favor, faça login novamente');
-      console.log(err)
-      return res.status(401).redirect('/login');
-      
-	
-  }
-   
-}
-
-
-
-
-
-*/
-
-// rota de autenticacao 
-
-
-
-
-
-
-
-// FUNCAO QUE VERIFICA O  TIPO DE USUARIO QUE ACESSA A ROTA
 
 
 
@@ -882,6 +592,122 @@ app.get('/home/download-modelo', async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+// Rota de criação de usuarios
+
+/*app.post('/register', verifyTI,  async (req,res) => { 
+  const  {
+    email,
+    password,
+    perfil 
+  } = req.body
+
+  if(!email){
+    req.flash('mensagemFalse', 'Insira um nome e senha validos');
+    return res.status(422).redirect('back');
+  }
+
+  const Userexists = await User.findOne({email:email})
+
+
+  if(Userexists) { 
+    req.flash('mensagemFalse', 'O usuário já existe! tente fazer login');
+      return res.status(422).redirect('back');
+  }
+
+
+  const salt = await bcrypt.genSalt(12)
+  const passwordHash = await bcrypt.hash(password, salt)
+  const user = new User({
+    email,
+    password : passwordHash,
+    perfil,
+  })
+
+  try{
+    await user.save()
+    req.flash('mensagemTrue', 'Usuário criado com sucesso!');
+    return res.status(201).redirect('back');
+  }
+  catch{
+    req.flash('mensagemFalse', 'Erro ao criar usuário! Atualize a pagina e tente novamente');
+    return res.status(500).redirect('back');
+
+  }
+})
+
+
+
+
+
+
+*/
+
+
+// funcao de autenticacao
+
+
+
+
+
+
+/*function authenticateToken(req, res, next) {
+  const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
+
+  if (!token) {
+    req.flash('mensagemFalse', 'Usuário não econtrado');
+    return res.status(401).redirect('/login');
+  }
+
+    
+  try {
+      const secret = process.env.SECRET_KEY;
+      const decoded = jwt.verify(token, secret);
+      req.user = decoded; // Adiciona as informações do usuário no req
+      next(); // Permite que a requisição prossiga
+  } catch (err) {
+      req.flash('mensagemFalse', 'Token inválido! Por favor, faça login novamente');
+      console.log(err)
+      return res.status(401).redirect('/login');
+      
+	
+  }
+   
+}
+
+
+
+
+
+*/
+
+// rota de autenticacao 
+
+
+
+
+
+
+
+// FUNCAO QUE VERIFICA O  TIPO DE USUARIO QUE ACESSA A ROTA
+
+
+
+
+
+
+
+
 /// metodo de aluno
 /*
 app.get('/aluno/:id', async (req, res) => {
@@ -907,6 +733,8 @@ app.get('/aluno/:id', async (req, res) => {
 // metodo de users
 
 // rota get do back end , retornando via json
+
+/*
 app.get('/users', async (req, res) => {
   try {
     const users = await User.find({});
@@ -918,6 +746,171 @@ app.get('/users', async (req, res) => {
     });
   }
 });
+
+
+
+
+app.get("/aluno", async (req, res) => {
+  
+  try {
+    const searchType = req.query.searchType;
+    const param = req.query.param;
+
+    let query, values;
+
+    if (searchType === 'matricula') {
+      query = 'SELECT * FROM ALUNO WHERE MATRICULA = $1';
+      values = [param];
+    } else if (searchType === 'nome') {
+
+      query = 'SELECT NOME, MATRICULA, SERIE FROM ALUNO WHERE NOME ILIKE $1 LIMIT 8';
+      values = [`%${param}%`];
+    } else {
+      return res.status(400).send('Tipo de busca inválido.');
+    }
+
+    const result = await pool.query(query, values);
+
+
+
+    if (result.rows.length === 0) {
+    
+      req.flash('mensagemFalse', "Aluno não encontrado")
+      return res.redirect('back');
+
+    }
+    if (searchType === 'matricula') {
+      const aluno = result.rows[0];
+      res.render('aluno', { aluno });
+
+
+    } else {
+      const alunos = result.rows;
+      res.render('resultados', { alunos });
+
+    }
+  } catch (error) {
+    console.error('Erro ao executar a consulta:', error);
+    res.status(500).send('Erro ao executar a consulta.');
+  }
+});
+
+
+
+/* app.get("/alunos",  async (req, res) => {
+  try {
+    const query = 'SELECT * FROM ALUNO';
+    const result = await pool.query(query);
+    const alunos = result.rows;
+    res.json(alunos);
+  } catch (error) {
+    console.error('Erro ao obter os dados dos alunos:', error);
+    res.status(500).send('Erro ao obter os dados dods alunos.');
+  }
+});
+
+// rota do front com o bacck
+app.get("/alunos/:matricula", async (req, res) => {
+
+
+
+  try {
+    
+    const { matricula } = req.params;
+    
+    // Busca direta pela matrícula
+    const result = await pool.query(
+      'SELECT * FROM aluno WHERE matricula = $1', 
+      [matricula]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ 
+        error: 'Aluno não encontrado' 
+      });
+    }
+
+    // Retorna TODOS os dados do aluno em JSON
+    res.json(result.rows[0]);
+
+  } catch (error) {
+    console.error('Erro no backend:', error);
+    res.status(500).json({ 
+      error: 'Erro interno no servidor' 
+    });
+  }
+});
+
+//  principal requisiçao , deve buscar um aluno por nome ou matricula , dependendo do paramentro (param) passado pelo usuario
+// ao buscar por nome o usuario é redirecionado para a view rotateste , contendo o nome dos usuarios encontrados pela busca
+
+/*
+app.get("/aluno/:param", async (req, res) => {
+  try {
+      const param = req.params.param;
+      let query, values;
+
+      if (/^\d+$/.test(param)) { 
+          // Se o parâmetro for composto apenas por dígitos, considere como matrícula
+          query = 'SELECT * FROM ALUNO WHERE MATRICULA = $1';
+          values = [param];
+
+          const result = await pool.query(query, values);
+
+          if (result.rows.length === 0) {
+              return res.status(404).send('Aluno não encontrado.');
+          }
+
+          const aluno = result.rows[0];
+          res.json( { aluno });
+      } else {
+          // Caso contrário, considere como nome (usando ILIKE para case-insensitive match)
+          query = 'SELECT * FROM ALUNO WHERE NOME ILIKE $1';
+          values = [`%${param}%`];
+
+          const result = await pool.query(query, values);
+
+          if (result.rows.length === 0) {
+              return res.status(404).send('Aluno não encontrado.');
+          }
+
+          const alunos = result.rows;
+          res.render('rotateste', { alunos });
+      }
+  } catch (error) {
+      console.error('Erro ao executar a consulta:', error);
+      res.status(500).send('Erro ao executar a consulta.');
+  }
+});
+
+// Criação do banco pool
+/* const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'PLATAFORMAS_ALUNOS',
+  password: '12345',
+  port:5432,
+})
+
+
+// Conexão com o banco de dados
+pool.connect((err, client, release) => {
+  if (err) {
+    console.error('Erro ao conectar ao banco de dados:', err);
+  } else {
+    console.log('Conexão bem-sucedida com o banco de dados!');
+  }
+});
+*/
+
+
+
+
+
+
+
+
+
 
 
 

@@ -119,6 +119,11 @@ exports.deleteStudentById = async (req, res) => {
 //
 // ---- MongoDB: Users ----
 //
+
+
+
+
+
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -127,6 +132,14 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ error: 'Falha ao carregar usuários' });
   }
 };
+
+
+
+
+
+
+
+
 
 exports.createUser = async (req, res) => {
   const { email, password, perfil } = req.body;
@@ -159,6 +172,12 @@ exports.createUser = async (req, res) => {
     return res.status(500).redirect('back');
   }
 };
+
+
+
+
+
+
 
 exports.deleteUserById = async (req, res) => {
   try {
