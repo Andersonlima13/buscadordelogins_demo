@@ -379,30 +379,6 @@ const validateSheet = (data) => {
 
 
 
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  // Validação básica de usuário e senha
-  if (email !== 'admin@teste.com') {
-    req.flash('mensagemFalse', "Usuário não encontrado!");
-    return res.redirect('back');
-  }
-
-  if (password !== 'admin') {
-    req.flash('mensagemFalse', "Senha incorreta!");
-    return res.redirect('back');
-  }
-
-  // Login bem-sucedido
-  req.flash('mensagemTrue', 'Login realizado com sucesso!');
-  console.log("Usuário logado:", email);
-  return res.redirect('/home'); // Redireciona para a rota '/home'
-});
-
-
-
-
-
 
 
 app.post('/upload', upload.single('file'), verifyTI, async (req, res) => {
@@ -919,6 +895,31 @@ pool.connect((err, client, release) => {
 
 
 
+/*
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Validação básica de usuário e senha
+  if (email !== 'admin@teste.com') {
+    req.flash('mensagemFalse', "Usuário não encontrado!");
+    return res.redirect('back');
+  }
+
+  if (password !== 'admin') {
+    req.flash('mensagemFalse', "Senha incorreta!");
+    return res.redirect('back');
+  }
+
+  // Login bem-sucedido
+  req.flash('mensagemTrue', 'Login realizado com sucesso!');
+  console.log("Usuário logado:", email);
+  return res.redirect('/home'); // Redireciona para a rota '/home'
+});
+
+
+
+*/
 
 
 

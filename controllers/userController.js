@@ -145,8 +145,8 @@ exports.createUser = async (req, res) => {
   const { email, password, perfil } = req.body;
 
   if (!email) {
-    req.flash('mensagemFalse', 'Insira um nome e senha válidos');
-    return res.status(422).redirect('back');
+    console.log('Insira um email valido');
+    return res.status(422)
   }
 
   const userExists = await User.findOne({ email });
