@@ -26,8 +26,22 @@ app.use(cookieParser());
 require('dotenv').config();
 
 
+
+
+
+
+
 const userRoutes = require('./routes/users')
 app.use('/users', userRoutes);
+
+const authRoutes = require('./routes/auth')
+app.use('/auth', authRoutes);
+
+
+
+
+
+
 
 
 

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+const authController = require('../controllers/authController')
 
 // Operacao de login (visto que todo user faz login)
 
 
 
-router.post('/admin/login', userController.authUser);
+router.post('/login', authController.authUser);
 
 
+module.exports = router;
