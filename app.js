@@ -31,11 +31,8 @@ require('dotenv').config();
 
 
 
-const userRoutes = require('./routes/users')
-app.use('/users', userRoutes);
-
-const authRoutes = require('./routes/auth')
-app.use('/auth', authRoutes);
+const userRoutes = require('./routes/users'); app.use('/users', userRoutes);
+const authRoutes = require('./routes/auth'); app.use('/auth', authRoutes);
 
 
 
@@ -78,71 +75,6 @@ app.use(flash());
 
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-
-
-
-app.get("/", async (req, res) => {
-  
-  res.redirect('/login');
-});
-
-
-app.get("/login",  async (req, res) => {
-  console.log("redirecionou para login")
-	 
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  res.render('login', {  
-      mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-      mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-      mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
-   });
-});
-
-
-
-
-
-
-
-app.get("/adcionar", async (req, res) => {
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  res.render('adcionar', {
-      mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-      mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-      mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
-   });
-});
-
-
-
-
-
-
-
-
-app.get("/adm",  async (req, res) => {
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  res.render('adm', {
-      mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-      mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-      mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
-   });
-});
-
-
-
-
-
-// APP.USE ( AQUI COLOCAMOS TODAS AS ROTAS ULTILIZADAS)
-// app.use(testederota,loginRoute);
 
 
 
@@ -199,137 +131,6 @@ app.use(express.static(__dirname));
 app.listen(3050,'0.0.0.0',() => {
   console.log("Servidor iniciado com sucesso!");
 });
-
-
-
-
-
-
-
-// ROTAS 
-
-
-
-
-
-
-
-
-
-app.get("/register", async (req, res) => {
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  
-  res.render('register' , {
-    mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-    mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-    mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
-  });
-});
-
-
-
-app.get('/Home', async (req, res) => {
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  res.render('Home', {
-    mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-    mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-    mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.get("/dashboards/olimpiadas" , async (req, res) => {
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  res.render('olimpiadas', {
-    mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-    mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-    mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
- });
-  
-});
-
-
-
-
-
-
-app.get("/usuarios" , async (req, res) => {
-      res.render('usuarios') 
-});
-
-
-
-
-app.get("/dashboards" , async (req, res) => {
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  res.render('dashboards', {
-    mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-    mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-    mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
- });
-  
-});
-
-
-
-
-
-
-
-app.get("/resultados", async (req, res) => {
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  res.render('resultados',{
-    mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-    mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-    mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
- });
-});
-
-
-// ROTA DE UPLOAD (TESTE )
-
-app.get('/upload', (req, res) => {
-  const mensagemT = req.flash('mensagemTrue');
-  const mensagemF = req.flash('mensagemFalse');
-  const mensagemN = req.flash('mensagemNotif');
-  res.render('upload', {  
-      mensagemT: mensagemT.length > 0 ? mensagemT[0] : null,
-      mensagemF: mensagemF.length > 0 ? mensagemF[0] : null,
-      mensagemN: mensagemN.length > 0 ? mensagemN[0] : null,
-   });
-});
-
-
-
-app.get('/404', (req, res) => {
-  res.render('notfound');
-});
-
-
 
 
 
@@ -445,53 +246,6 @@ app.post('/upload', upload.single('file'), verifyTI, async (req, res) => {
     }
   }
 });
-
-
-
-
-
-
-
-
-
-
-// middleware autenticacao
-async function verifyAdm(req, res, next) {
-  const token = req.cookies.token;
-
-  if (!token) {
-    req.flash('mensagemFalse', 'Acesso Negado , Faça login primeiro');
-    return res.status(403).redirect('/login');
-  }
-
-  try {
-    const secret = process.env.SECRET_KEY;
-    const decoded = jwt.verify(token, secret);
-    req.userId = decoded.id;
-
-    const user = await User.findById(req.userId);
-    
-    if (!user) {
-      req.flash('mensagemFalse', 'Usuário não encontrado');
-      return res.status(404).redirect('back');
-    }
-
-    if (user.perfil !== 'TI' && user.perfil !== 'Direção' && user.perfil !== 'Coordenação') {  
-      req.flash('mensagemFalse', 'Acesso Negado');
-      return res.status(401).redirect('back');
-    }
-
-   
-
-    next();
-  } catch (err) {
-    
-    req.flash('mensagemFalse', 'Token inválido');
-      return res.status(403).redirect('back');
-  }
-}
-
-
 
 
 
