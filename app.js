@@ -31,10 +31,6 @@ require('dotenv').config();
 
 
 
-const userRoutes = require('./routes/users'); app.use('/users', userRoutes);
-const authRoutes = require('./routes/auth'); app.use('/auth', authRoutes);
-
-
 
 
 
@@ -45,11 +41,10 @@ const authRoutes = require('./routes/auth'); app.use('/auth', authRoutes);
 
 /// definindo o cors para o front end
 app.use(cors({
-  origin: 'http://localhost:3001', // URL do seu frontend
+  origin: 'http://localhost:3001',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
-
 }));
 
 
@@ -57,6 +52,9 @@ app.use(cors({
 
 
 
+
+const userRoutes = require('./routes/users'); app.use('/users', userRoutes);
+const authRoutes = require('./routes/auth'); app.use('/auth', authRoutes);
 
 
 
