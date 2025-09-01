@@ -138,9 +138,7 @@ exports.getAllUsers = async (req, res) => {
 
 
 
-
-
-
+/*
 exports.createUser = async (req, res) => {
   const { email, password, perfil } = req.body;
 
@@ -151,8 +149,8 @@ exports.createUser = async (req, res) => {
 
   const userExists = await User.findOne({ email });
   if (userExists) {
-    req.flash('mensagemFalse', 'O usuário já existe! tente fazer login');
-    return res.status(422).redirect('back');
+    console.log('mensagemFalse', 'O usuário já existe! tente fazer login');
+    return res.status(422)
   }
 
   const salt = await bcrypt.genSalt(12);
@@ -162,17 +160,23 @@ exports.createUser = async (req, res) => {
 
   try {
     await user.save();
-    req.flash('mensagemTrue', 'Usuário criado com sucesso!');
-    return res.status(201).redirect('back');
+   console.log('mensagemTrue', 'Usuário criado com sucesso!');
+    return res.status(201)
   } catch {
-    req.flash(
-      'mensagemFalse',
-      'Erro ao criar usuário! Atualize a página e tente novamente'
-    );
-    return res.status(500).redirect('back');
+   // req.flash(
+    //  'mensagemFalse',
+   //   'Erro ao criar usuário! Atualize a página e tente novamente'
+   // );
+    console.log('erro ao criar o usuario')
+    return res.status(500)
   }
 };
 
+
+
+
+
+*/
 
 
 

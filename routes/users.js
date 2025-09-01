@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const adminController = require('../controllers/adminController');
 
 // ---- Alunos (Postgres) ----
 router.get('/alunos', userController.getAllStudents);
@@ -14,7 +15,7 @@ router.delete('/alunos/delete/:id', userController.deleteStudentById);
 // rotas de usuarios mongo db
 // ---- Usuários (MongoDB) ----
 router.get('/admin', userController.getAllUsers);
-router.post('/admin/create', userController.createUser);
+router.post('/admin/create', adminController.createUser);
 router.delete('/admin/delete/:id', userController.deleteUserById);
 
 module.exports = router;

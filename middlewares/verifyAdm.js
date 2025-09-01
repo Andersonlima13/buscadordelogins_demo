@@ -1,13 +1,23 @@
-const express = require('express');
-const router = express.Router();
-const adminController = require('../controllers/adminController');
-const verifyAdm = require('../middlewares/verifyAdm');
+const jwt = require('jsonwebtoken');
 
-// Rotas de administração protegidas
-router.post('/create-user', verifyAdm, adminController.createUser);
-router.delete('/delete-user/:id', verifyAdm, adminController.deleteUserById);
+function verifyAdm(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // "Bearer <token>"
 
-// você também pode reaproveitar coisas de aluno se admin pode fazer
-router.delete('/delete-student/:id', verifyAdm, adminController.deleteStudentById);
+  if (!token) return res.status(401).json({ error: 'Token não fornecido' });
 
-module.exports = router;
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    if (decoded.perfil !== 'Administrador') {
+      return res.status(403).json({ error: 'Apenas administradores podem realizar esta ação' });
+    }
+
+    req.user = decoded; // passa user para o controller
+    next();
+  } catch (err) {
+    return res.status(403).json({ error: 'Token inválido ou expirado' });
+  }
+}
+
+module.exports = verifyAdm;

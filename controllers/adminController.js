@@ -6,20 +6,15 @@ module.exports = {
   ...userController,
   ...authController,
 
-  // aqui você redefine ou cria métodos exclusivos do admin
-  createUser: async (req, res) => {
-    const { perfil } = req.body;
-
-    if (!perfil) {
-      return res.status(400).json({ error: 'Perfil é obrigatório' });
+createUser: async (req, res) => {
+  try {
+    if (req.user.perfil !== 'Administrador') {
+      return res.status(403).json({ error: 'Sem permissão' });
     }
-
-    // aqui, só admin pode criar usuário
-    try {
-      return await userController.createUser(req, res);
-    } catch (error) {
-      console.error('Erro ao criar usuário (admin):', error);
-      return res.status(500).json({ error: 'Erro ao criar usuário' });
-    }
-  },
+    return await userController.createUser(req, res);
+  } catch (error) {
+    console.error('Erro ao criar usuário (admin):', error);
+    return res.status(500).json({ error: 'Erro ao criar usuário' });
+  }
+}
 };
