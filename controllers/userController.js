@@ -1,5 +1,4 @@
 const User = require('../model/user');
-const bcrypt = require('bcrypt');
 const pool = require('../config/db'); // importa o pool
 
 
@@ -123,13 +122,32 @@ exports.deleteStudentById = async (req, res) => {
 
 
 
-
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: 'Falha ao carregar usuários' });
+  }
+};
+
+
+
+
+exports.deleteUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    res.json({ message: 'Usuário deletado com sucesso', user });
+  } catch (err) {
+    console.error('Erro ao deletar usuário:', err);
+    res.status(500).json({ error: 'Erro ao deletar usuário' });
   }
 };
 
@@ -177,25 +195,3 @@ exports.createUser = async (req, res) => {
 
 
 */
-
-
-
-
-
-
-exports.deleteUserById = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const user = await User.findByIdAndDelete(id);
-
-    if (!user) {
-      return res.status(404).json({ error: 'Usuário não encontrado' });
-    }
-
-    res.json({ message: 'Usuário deletado com sucesso', user });
-  } catch (err) {
-    console.error('Erro ao deletar usuário:', err);
-    res.status(500).json({ error: 'Erro ao deletar usuário' });
-  }
-};
