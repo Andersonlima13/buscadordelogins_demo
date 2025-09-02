@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const allowedProfiles = require('./allowedProfiles');
 
 function verifyAdm(req, res, next) {
   const authHeader = req.headers['authorization'];
@@ -9,7 +10,7 @@ function verifyAdm(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-    if (decoded.perfil !== 'Administrador') {
+    if (!allowedProfiles.includes(decoded.perfil)) {
       return res.status(403).json({ error: 'Apenas administradores podem realizar esta ação' });
     }
 
