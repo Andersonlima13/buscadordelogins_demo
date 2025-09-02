@@ -1,12 +1,11 @@
+// routes/auth.js
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController')
+const authController = require('../controllers/authController');
 
-// Operacao de login (visto que todo user faz login)
-
-
-
+// login
 router.post('/login', authController.authUser);
 
+// logout
 
 module.exports = router;
