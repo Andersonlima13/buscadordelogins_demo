@@ -50,3 +50,15 @@ exports.authUser = async (req, res) => {
     return res.status(500).json({ error: 'Erro interno' });
   }
 };
+
+
+exports.logout = (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+  });
+  return res.json({ message: 'Logout realizado com sucesso' });
+};
+
+
